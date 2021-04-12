@@ -22,21 +22,25 @@ function addClient(data) {
   const addRequest = store.add(data);
 
   addRequest.addEventListener("success", (e) => {
-    const tableRowData = [
-      e.target.result,
-      data.firstName,
-      data.lastName,
-      data.phoneNumber,
-      data.marketing,
-      "",
-    ];
-
-    const tableRow = table.insertRow(-1);
-    for (const colData of tableRowData) {
-      const tableCell = tableRow.insertCell(-1);
-      tableCell.innerHTML = colData;
-    }
+    addClientRow({ ...data, id: e.target.result });
   });
+}
+
+function addClientRow(data) {
+  const tableRowData = [
+    data.id,
+    data.firstName,
+    data.lastName,
+    data.phoneNumber,
+    data.marketing,
+    "",
+  ];
+
+  const tableRow = table.insertRow(-1);
+  for (const colData of tableRowData) {
+    const tableCell = tableRow.insertCell(-1);
+    tableCell.innerHTML = colData;
+  }
 }
 
 // Handling form data
@@ -49,4 +53,6 @@ formElem.addEventListener("submit", (e) => {
   const data = Object.fromEntries(new FormData(formElem));
   data["marketing"] = !!data["marketing"];
   addClient(data);
+
+  formElem.reset();
 });
