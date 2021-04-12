@@ -25,22 +25,22 @@
       </tr>
     </table>
     <h2>Dodaj</h2>
-    <form>
+    <form id="form">
       <p>
         <label for="firstName">Imię</label>
-        <input id="firstName" type="text" />
+        <input id="firstName" name="firstName" type="text" required />
       </p>
       <p>
         <label for="lastName">Nazwisko</label>
-        <input id="lastName" type="text" />
+        <input id="lastName" name="lastName" type="text" required />
       </p>
       <p>
         <label for="phoneNumber">Numer telefonu</label>
-        <input id="phoneNumber" type="tel" />
+        <input id="phoneNumber" name="phoneNumber" type="tel" required />
       </p>
       <p>
         <label for="marketing">Marketing</label>
-        <input id="marketing" type="checkbox" />
+        <input id="marketing" name="marketing" type="checkbox" />
       </p>
       <p>
         <button type="submit">Dodaj</button>
