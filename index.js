@@ -28,6 +28,8 @@ dbRequest.addEventListener("upgradeneeded", (e) => {
   });
 });
 
+// Handle read/write
+
 function addClient(data) {
   const transaction = db.transaction(["clientsStore"], "readwrite");
   const store = transaction.objectStore("clientsStore");
@@ -37,6 +39,18 @@ function addClient(data) {
     addClientRow({ ...data, id: e.target.result });
   });
 }
+
+function deleteClient(id) {
+  const transaction = db.transaction(["clientsStore"], "readwrite");
+  const store = transaction.objectStore("clientsStore");
+  const deleteRequest = store.delete(id);
+
+  deleteRequest.addEventListener("success", () => {
+    deleteClientRow(id);
+  });
+}
+
+// DOM manipulation
 
 function addClientRow(data) {
   const tableRowData = [
@@ -48,6 +62,8 @@ function addClientRow(data) {
   ];
 
   const tableRow = table.insertRow(-1);
+  tableRow.id = `tableRow${data.id}`;
+
   for (const colData of tableRowData) {
     const tableCell = tableRow.insertCell(-1);
     tableCell.innerHTML = colData;
@@ -56,11 +72,15 @@ function addClientRow(data) {
   const deleteButton = document.createElement("button");
   deleteButton.innerHTML = "Usuń";
   deleteButton.addEventListener("click", () => {
-    tableRow.remove();
+    deleteClient(data.id);
   });
 
   const deleteButtonCell = tableRow.insertCell(-1);
   deleteButtonCell.appendChild(deleteButton);
+}
+
+function deleteClientRow(id) {
+  document.getElementById(`tableRow${id}`).remove();
 }
 
 // Handling form data
