@@ -15,6 +15,16 @@ dbRequest.addEventListener("upgradeneeded", (e) => {
   });
 });
 
+function addClient(data) {
+  const transaction = db.transaction(["clientsStore"], "readwrite");
+  const store = transaction.objectStore("clientsStore");
+  const addRequest = store.add(data);
+
+  addRequest.addEventListener("success", () => {
+    alert("New client added");
+  });
+}
+
 // Handling form data
 
 const formElem = document.getElementById("form");
@@ -23,12 +33,5 @@ formElem.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const data = Object.fromEntries(new FormData(formElem));
-
-  const transaction = db.transaction(["clientsStore"], "readwrite");
-  const store = transaction.objectStore("clientsStore");
-  const addRequest = store.add(data);
-
-  addRequest.addEventListener("success", (e) => {
-    alert("added");
-  });
+  addClient(data);
 });
