@@ -2,6 +2,7 @@
 
 var db;
 const dbRequest = indexedDB.open("clients", 1);
+const table = document.getElementById("table");
 
 dbRequest.addEventListener("success", (e) => {
   db = e.target.result;
@@ -20,8 +21,21 @@ function addClient(data) {
   const store = transaction.objectStore("clientsStore");
   const addRequest = store.add(data);
 
-  addRequest.addEventListener("success", () => {
-    alert("New client added");
+  addRequest.addEventListener("success", (e) => {
+    const tableRowData = [
+      e.target.result,
+      data.firstName,
+      data.lastName,
+      data.phoneNumber,
+      data.marketing,
+      "",
+    ];
+
+    const tableRow = table.insertRow(-1);
+    for (const colData of tableRowData) {
+      const tableCell = tableRow.insertCell(-1);
+      tableCell.innerHTML = colData;
+    }
   });
 }
 
@@ -33,5 +47,6 @@ formElem.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const data = Object.fromEntries(new FormData(formElem));
+  data["marketing"] = !!data["marketing"];
   addClient(data);
 });
