@@ -45,7 +45,6 @@ function addClientRow(data) {
     data.lastName,
     data.phoneNumber,
     data.marketing,
-    "",
   ];
 
   const tableRow = table.insertRow(-1);
@@ -53,6 +52,15 @@ function addClientRow(data) {
     const tableCell = tableRow.insertCell(-1);
     tableCell.innerHTML = colData;
   }
+
+  const deleteButton = document.createElement("button");
+  deleteButton.innerHTML = "Usuń";
+  deleteButton.addEventListener("click", () => {
+    tableRow.remove();
+  });
+
+  const deleteButtonCell = tableRow.insertCell(-1);
+  deleteButtonCell.appendChild(deleteButton);
 }
 
 // Handling form data
