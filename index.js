@@ -6,6 +6,18 @@ const table = document.getElementById("table");
 
 dbRequest.addEventListener("success", (e) => {
   db = e.target.result;
+
+  const transaction = db.transaction(["clientsStore"], "readonly");
+  const store = transaction.objectStore("clientsStore");
+  const cursor = store.openCursor();
+
+  cursor.addEventListener("success", (e) => {
+    const c = e.target.result;
+    if (c) {
+      addClientRow(c.value);
+      c.continue();
+    }
+  });
 });
 
 dbRequest.addEventListener("upgradeneeded", (e) => {
