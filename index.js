@@ -22,10 +22,12 @@ dbRequest.addEventListener("success", (e) => {
 
 dbRequest.addEventListener("upgradeneeded", (e) => {
   db = e.target.result;
-  db.createObjectStore("clientsStore", {
+
+  const store = db.createObjectStore("clientsStore", {
     keyPath: "id",
     autoIncrement: true,
   });
+  store.createIndex("phoneNumber", "phoneNumber");
 });
 
 // Handle read/write
@@ -47,6 +49,23 @@ function deleteClient(id) {
 
   deleteRequest.addEventListener("success", () => {
     deleteClientRow(id);
+  });
+}
+
+function findClientByPhoneNumber(phoneNumber) {
+  const transaction = db.transaction(["clientsStore"], "readonly");
+  const store = transaction.objectStore("clientsStore");
+  const index = store.index("phoneNumber");
+  const cursor = index.openCursor(IDBKeyRange.bound(phoneNumber, phoneNumber + "\uffff"));
+
+  deleteAllClientRows();
+
+  cursor.addEventListener("success", (e) => {
+    const c = e.target.result;
+    if (c) {
+      addClientRow(c.value);
+      c.continue();
+    }
   });
 }
 
@@ -90,6 +109,10 @@ function deleteClientRow(id) {
   document.getElementById(`tableRow${id}`).remove();
 }
 
+function deleteAllClientRows() {
+  table.querySelectorAll("*").forEach((row) => row.remove());
+}
+
 // Handling form data
 
 const formElem = document.getElementById("form");
@@ -103,4 +126,15 @@ formElem.addEventListener("submit", (e) => {
   addClient(data);
 
   formElem.reset();
+});
+
+// Handling search form data
+
+const searchFormElem = document.getElementById("searchForm");
+
+searchFormElem.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const data = Object.fromEntries(new FormData(searchFormElem));
+  findClientByPhoneNumber(data.search);
 });
