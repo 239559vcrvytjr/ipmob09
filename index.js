@@ -57,7 +57,14 @@ function addClientRow(data) {
     data.id,
     data.firstName,
     data.lastName,
+    data.address,
     data.phoneNumber,
+    data.email,
+    data.pesel,
+    data.identity,
+    data.business,
+    data.businessName,
+    data.nip,
     data.marketing,
   ];
 
@@ -66,7 +73,7 @@ function addClientRow(data) {
 
   for (const colData of tableRowData) {
     const tableCell = tableRow.insertCell(-1);
-    tableCell.innerHTML = colData;
+    tableCell.innerHTML = colData || "";
   }
 
   const deleteButton = document.createElement("button");
@@ -91,6 +98,7 @@ formElem.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const data = Object.fromEntries(new FormData(formElem));
+  data["business"] = !!data["business"];
   data["marketing"] = !!data["marketing"];
   addClient(data);
 

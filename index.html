@@ -19,7 +19,14 @@
         <th>ID</th>
         <th>Imię</th>
         <th>Nazwisko</th>
+        <th>Adres</th>
         <th>Numer telefonu</th>
+        <th>E-mail</th>
+        <th>PESEL</th>
+        <th>Numer dowodu</th>
+        <th>Firma</th>
+        <th>Nazwa firmy</th>
+        <th>NIP</th>
         <th>Marketing</th>
         <th>Usuń</th>
       </tr>
@@ -27,16 +34,44 @@
     <h2>Dodaj</h2>
     <form id="form">
       <p>
-        <label for="firstName">Imię</label>
-        <input id="firstName" name="firstName" type="text" required />
+        <label for="firstName">Imię *</label>
+        <input id="firstName" name="firstName" required />
       </p>
       <p>
-        <label for="lastName">Nazwisko</label>
-        <input id="lastName" name="lastName" type="text" required />
+        <label for="lastName">Nazwisko *</label>
+        <input id="lastName" name="lastName" required />
       </p>
       <p>
-        <label for="phoneNumber">Numer telefonu</label>
-        <input id="phoneNumber" name="phoneNumber" type="tel" required />
+        <label for="address">Adres *</label>
+        <input id="address" name="address" required />
+      </p>
+      <p>
+        <label for="phoneNumber">Numer telefonu *</label>
+        <input id="phoneNumber" name="phoneNumber" type="tel" pattern="\d{3}[\s-]*\d{3}[\s-]*\d{3}" required />
+      </p>
+      <p>
+        <label for="email">E-mail *</label>
+        <input id="email" name="email" type="email" pattern=".+@.+\..+" required />
+      </p>
+      <p>
+        <label for="pesel">PESEL</label>
+        <input id="pesel" name="pesel" pattern="\d{11}" />
+      </p>
+      <p>
+        <label for="identity">Numer dowodu</label>
+        <input id="identity" name="identity" pattern="\D{3}\s?\d{6}" />
+      </p>
+      <p>
+        <label for="business">Firma</label>
+        <input id="business" name="business" type="checkbox" />
+      </p>
+      <p>
+        <label for="businessName">Nazwa firmy</label>
+        <input id="businessName" name="businessName" />
+      </p>
+      <p>
+        <label for="nip">NIP</label>
+        <input id="nip" name="nip" pattern="(\d{3}-\d{3}-\d{2}-\d{2})|(\d{3}-\d{2}-\d{2}-\d{3})" />
       </p>
       <p>
         <label for="marketing">Marketing</label>
