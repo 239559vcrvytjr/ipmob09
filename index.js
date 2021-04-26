@@ -152,15 +152,13 @@ formElem.addEventListener("submit", (e) => {
   formElem.reset();
 });
 
-// Handling search form data
+// Handling search box
 
-const searchFormElem = document.getElementById("searchForm");
+const searchBox = document.getElementById("searchBox");
 
-searchFormElem.addEventListener("submit", (e) => {
+searchBox.addEventListener("input", (e) => {
   e.preventDefault();
-
-  const data = Object.fromEntries(new FormData(searchFormElem));
-  findClient(data.search);
+  findClient(e.target.value);
 });
 
 // Generate random data
