@@ -1,7 +1,9 @@
 // Database initialization
 
+const DATABASE_NAME = "clientsDatabase";
+
 var db;
-const dbRequest = indexedDB.open("clients", 1);
+const dbRequest = indexedDB.open(DATABASE_NAME, 1);
 const table = document.getElementById("table");
 
 dbRequest.addEventListener("success", (e) => {
@@ -194,4 +196,13 @@ function getRandomData() {
     nip: requireBusiness ? rN(3) + "-" + rN(2) + "-" + rN(2) + "-" + rN(3) : undefined,
     marketing: rB(),
   };
+}
+
+// Remove database data
+
+document.getElementById("fixDatabaseButton").addEventListener("click", deleteDatabase);
+
+function deleteDatabase() {
+  indexedDB.deleteDatabase(DATABASE_NAME);
+  alert("Database will be re-created when you refresh the page");
 }
