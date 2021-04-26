@@ -42,6 +42,10 @@ function addClient(data) {
   });
 }
 
+function addRandomClient() {
+  addClient(getRandomData());
+}
+
 function deleteClient(id) {
   const transaction = db.transaction(["clientsStore"], "readwrite");
   const store = transaction.objectStore("clientsStore");
@@ -138,3 +142,56 @@ searchFormElem.addEventListener("submit", (e) => {
   const data = Object.fromEntries(new FormData(searchFormElem));
   findClientByPhoneNumber(data.search);
 });
+
+// Generate random data
+
+document.getElementById("addRandomClientButton").addEventListener("click", addRandomClient);
+
+function getRandomData() {
+  String.prototype.toTitleCase = function () {
+    return this.split(" ")
+      .map((word) => word[0].toUpperCase() + word.substr(1))
+      .join();
+  };
+
+  function randomString(length) {
+    const sourceChars = "abcdefghijklmnopqrstuvwxyz";
+    const stringChars = [...Array(length)].map(() =>
+      sourceChars.charAt(Math.floor(Math.random() * sourceChars.length))
+    );
+    return stringChars.join("");
+  }
+
+  function randomNumber(length, padZeros = true) {
+    const maxValue = 10 ** length - 1;
+    const randomNum = Math.floor(Math.random() * maxValue);
+
+    if (padZeros) return (randomNum + "").padStart(length, "0");
+    else return randomNum;
+  }
+
+  function randomBool() {
+    return !!Math.round(Math.random());
+  }
+
+  const rS = randomString;
+  const rN = randomNumber;
+  const rB = randomBool;
+
+  const requirePersonal = rB();
+  const requireBusiness = rB();
+
+  return {
+    firstName: rS(10).toTitleCase(),
+    lastName: rS(15).toTitleCase(),
+    address: rS(10).toTitleCase() + " " + rN(2, false) + "/" + rN(1),
+    phoneNumber: rN(9),
+    email: rS(5) + "@" + rS(5) + "." + rS(2),
+    pesel: requirePersonal ? rN(11) : undefined,
+    identity: requirePersonal ? rS(3).toUpperCase() + rN(6) : undefined,
+    business: requireBusiness,
+    businessName: requireBusiness ? rS(10).toTitleCase() + " " + rS(10).toTitleCase() : undefined,
+    nip: requireBusiness ? rN(3) + "-" + rN(2) + "-" + rN(2) + "-" + rN(3) : undefined,
+    marketing: rB(),
+  };
+}
