@@ -58,18 +58,36 @@ function deleteClient(id) {
   });
 }
 
-function findClientByPhoneNumber(phoneNumber) {
+// Finding clients
+
+function findClient(phraseString) {
+  const phraseList = phraseString.match(/\S+/g) || [];
+
+  function checkMatch(client) {
+    for (const phrase of phraseList) {
+      let phraseMatched = false;
+
+      for (const column of Object.values(client)) {
+        if (!column || column === true) continue; // skip empty or boolean columns
+        if ((column + "").toLowerCase().includes(phrase.toLowerCase())) phraseMatched = true;
+      }
+
+      if (!phraseMatched) return false;
+    }
+
+    return true;
+  }
+
   const transaction = db.transaction(["clientsStore"], "readonly");
   const store = transaction.objectStore("clientsStore");
-  const index = store.index("phoneNumber");
-  const cursor = index.openCursor(IDBKeyRange.bound(phoneNumber, phoneNumber + "\uffff"));
+  const cursor = store.openCursor();
 
   deleteAllClientRows();
 
   cursor.addEventListener("success", (e) => {
     const c = e.target.result;
     if (c) {
-      addClientRow(c.value);
+      if (checkMatch(c.value)) addClientRow(c.value);
       c.continue();
     }
   });
@@ -142,7 +160,7 @@ searchFormElem.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const data = Object.fromEntries(new FormData(searchFormElem));
-  findClientByPhoneNumber(data.search);
+  findClient(data.search);
 });
 
 // Generate random data
