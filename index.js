@@ -115,14 +115,21 @@ function addClientRow(data) {
     tableCell.innerHTML = colData || "";
   }
 
+  const editButton = document.createElement("button");
+  editButton.innerHTML = "Edytuj";
+  editButton.addEventListener("click", () => {
+    alert("Dane zostały skopiowane do formularza");
+  });
+
   const deleteButton = document.createElement("button");
   deleteButton.innerHTML = "Usuń";
   deleteButton.addEventListener("click", () => {
     deleteClient(data.id);
   });
 
-  const deleteButtonCell = tableRow.insertCell(-1);
-  deleteButtonCell.appendChild(deleteButton);
+  const actionButtonCell = tableRow.insertCell(-1);
+  actionButtonCell.appendChild(editButton);
+  actionButtonCell.appendChild(deleteButton);
 }
 
 function deleteClientRow(id) {
