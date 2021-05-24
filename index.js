@@ -1,3 +1,7 @@
+// DOM object references
+
+const formElem = document.getElementById("form");
+
 // Database initialization
 
 const DATABASE_NAME = "clientsDatabase";
@@ -34,10 +38,13 @@ dbRequest.addEventListener("upgradeneeded", (e) => {
 
 // Handle read/write
 
-function addClient(data) {
+function editClient(data, id) {
   const transaction = db.transaction(["clientsStore"], "readwrite");
   const store = transaction.objectStore("clientsStore");
   const addRequest = store.add(data);
+
+  // delete previous version of client data
+  if (id) deleteClient(id);
 
   addRequest.addEventListener("success", (e) => {
     addClientRow({ ...data, id: e.target.result });
@@ -118,6 +125,10 @@ function addClientRow(data) {
   const editButton = document.createElement("button");
   editButton.innerHTML = "Edytuj";
   editButton.addEventListener("click", () => {
+    for (const [k, v] of Object.entries(data)) {
+      formElem.elements[k].checked = v;
+      formElem.elements[k].value = v || "";
+    }
     alert("Dane zostały skopiowane do formularza");
   });
 
@@ -142,17 +153,19 @@ function deleteAllClientRows() {
 
 // Handling form data
 
-const formElem = document.getElementById("form");
-
 formElem.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const data = Object.fromEntries(new FormData(formElem));
   data["business"] = !!data["business"];
   data["marketing"] = !!data["marketing"];
-  addClient(data);
 
+  const id = data["id"];
+  delete data["id"];
+
+  editClient(data, +id);
   formElem.reset();
+  formElem.elements["id"].value = ""; // hidden fields are not erased by default
 });
 
 // Handling search box
