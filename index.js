@@ -2,8 +2,7 @@
 
 const formElem = document.getElementById("form");
 
-const mainView = document.getElementById("mainView");
-const invoiceView = document.getElementById("invoiceView");
+const invoiceViewList = document.getElementById("invoiceViewList");
 
 // Database initialization
 
@@ -145,7 +144,30 @@ function addClientRow(data) {
   const printButton = document.createElement("button");
   printButton.innerHTML = "Drukuj";
   printButton.addEventListener("click", () => {
-    invoiceView.innerHTML = "<pre>" + JSON.stringify(data, null, 4) + "</pre>";
+    const labels = {
+      id: "ID",
+      firstName: "Imię",
+      lastName: "Nazwisko",
+      address: "Adres",
+      phoneNumber: "Numer telefonu",
+      email: "E-mail",
+      pesel: "PESEL",
+      identity: "Numer dowodu",
+      business: "Firma",
+      businessName: "Nazwa firmy",
+      nip: "NIP",
+      marketing: "Marketing",
+      products: "Produkty",
+    };
+
+    invoiceViewList.innerHTML = "";
+
+    for (const key in labels) {
+      const li = document.createElement("li");
+      li.innerHTML = `${labels[key]}: ${data[key]}`;
+      invoiceViewList.appendChild(li);
+    }
+
     window.print();
   });
 
