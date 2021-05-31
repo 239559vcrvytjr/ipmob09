@@ -101,6 +101,7 @@ function findClient(phraseString) {
 function addClientRow(data) {
   const tableRowData = [
     data.id,
+    data.products,
     data.firstName,
     data.lastName,
     data.address,

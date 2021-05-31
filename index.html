@@ -33,12 +33,13 @@
     DEBUG:
     <button id="fixDatabaseButton">DEBUG: Fix database (delete data, page reload required)</button>
     <hr />
-    <h1>Klienci</h1>
-    <input id="searchBox" name="search" placeholder="Search" />
+    <h1>Zamówienia</h1>
+    <input id="searchBox" name="search" placeholder="Szukaj" />
     <table>
       <thead>
         <tr>
           <th>ID</th>
+          <th>Produkt</th>
           <th>Imię</th>
           <th>Nazwisko</th>
           <th>Adres</th>
@@ -57,6 +58,17 @@
     </table>
     <form id="form">
       <input id="id" name="id" type="hidden" />
+      <p>
+        <label for="products">Produkt *</label>
+        <select id="products" name="products" required>
+          <option value="">Wybierz...</option>
+          <option value="1">Farba emulsyjna</option>
+          <option value="2">Drabina 6-stopniowa</option>
+          <option value="3">Panel podłogowy</option>
+          <option value="4">Zestaw tarasowy</option>
+          <option value="5">Kosiarka samojezdna</option>
+        </select>
+      </p>
       <p>
         <label for="firstName">Imię *</label>
         <input id="firstName" name="firstName" required />
