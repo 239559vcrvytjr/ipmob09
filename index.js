@@ -123,7 +123,6 @@ function findClient(phraseString) {
 function addClientRow(data) {
   const tableRowData = [
     data.id,
-    data.products,
     data.firstName,
     data.lastName,
     data.address,
@@ -144,6 +143,17 @@ function addClientRow(data) {
     const tableCell = tableRow.insertCell(-1);
     tableCell.innerHTML = colData || "";
   }
+
+  const ul = document.createElement("ul");
+  if (data.products) {
+    for (const productID of data.products) {
+      const li = document.createElement("li");
+      li.innerHTML = productNames[productID];
+      ul.appendChild(li);
+    }
+  }
+  const tableCell = tableRow.insertCell(-1);
+  tableCell.appendChild(ul);
 
   const editButton = document.createElement("button");
   editButton.innerHTML = "Edytuj";
