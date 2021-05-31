@@ -1,8 +1,28 @@
 // DOM object references
 
 const formElem = document.getElementById("form");
+const products = document.getElementById("products");
 
 const invoiceViewList = document.getElementById("invoiceViewList");
+
+// Product dropdown initialization
+
+const productNames = [
+  "Farba emulsyjna",
+  "Drabina 6-stopniowa",
+  "Panel podłogowy",
+  "Zestaw tarasowy",
+  "Kosiarka samojezdna",
+  "Wkrętarka udarowa",
+];
+
+for (const productID in productNames) {
+  const option = document.createElement("option");
+  option.value = productID;
+  option.innerHTML = productNames[productID];
+
+  products.appendChild(option);
+}
 
 // Database initialization
 
