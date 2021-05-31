@@ -152,6 +152,9 @@ function addClientRow(data) {
       formElem.elements[k].checked = v;
       formElem.elements[k].value = v || "";
     }
+    data.products.forEach((e) => {
+      formElem.elements["products"].options[e].selected = true;
+    });
     alert("Dane zostały skopiowane do formularza");
   });
 
@@ -213,6 +216,7 @@ formElem.addEventListener("submit", (e) => {
   const data = Object.fromEntries(new FormData(formElem));
   data["business"] = !!data["business"];
   data["marketing"] = !!data["marketing"];
+  data["products"] = [...products.options].filter((option) => option.selected).map((option) => option.index);
 
   const id = data["id"];
   delete data["id"];

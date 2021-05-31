@@ -28,6 +28,10 @@ input:not([type="submit"]):invalid {
   border: 2px solid #ff0000;
 }
 
+select {
+  font-size: 1em;
+}
+
 @media screen {
   #invoiceView {
     display: none;
