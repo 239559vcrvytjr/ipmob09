@@ -1,46 +1,7 @@
 <html>
   <head>
-    <style>
-      table {
-        border-collapse: collapse;
-      }
-
-      td,
-      th {
-        border: 1px solid lightgray;
-      }
-
-      label {
-        display: block;
-        min-width: 200px;
-      }
-
-      input:required {
-        box-shadow: none; /* disable default red indicator for invalid fields on Firefox */
-      }
-
-      input:not([type="submit"]):valid {
-        border: 2px solid #009f00;
-      }
-
-      input:not([type="submit"]):invalid {
-        border: 2px solid #ff0000;
-      }
-
-      @media screen {
-        #invoiceView {
-          display: none;
-        }
-      }
-
-      @media print {
-        #mainView {
-          display: none;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="index.css" type="text/css" />
   </head>
-
   <body>
     <div id="mainView">
       DEBUG:
