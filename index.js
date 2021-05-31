@@ -2,6 +2,9 @@
 
 const formElem = document.getElementById("form");
 
+const mainView = document.getElementById("mainView");
+const invoiceView = document.getElementById("invoiceView");
+
 // Database initialization
 
 const DATABASE_NAME = "clientsDatabase";
@@ -139,8 +142,16 @@ function addClientRow(data) {
     deleteClient(data.id);
   });
 
+  const printButton = document.createElement("button");
+  printButton.innerHTML = "Drukuj";
+  printButton.addEventListener("click", () => {
+    invoiceView.innerHTML = "<pre>" + JSON.stringify(data, null, 4) + "</pre>";
+    window.print();
+  });
+
   const actionButtonCell = tableRow.insertCell(-1);
   actionButtonCell.appendChild(editButton);
+  actionButtonCell.appendChild(printButton);
   actionButtonCell.appendChild(deleteButton);
 }
 
