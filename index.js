@@ -24,6 +24,22 @@ for (const productID in productNames) {
   products.appendChild(option);
 }
 
+// Convert product IDs to unordered list
+
+function productIDToList(productIDs) {
+  if (!productIDs) return document.createElement("ul");
+
+  const ul = document.createElement("ul");
+  if (productIDs) {
+    for (const productID of productIDs) {
+      const li = document.createElement("li");
+      li.innerHTML = productNames[productID];
+      ul.appendChild(li);
+    }
+  }
+  return ul;
+}
+
 // Database initialization
 
 const DATABASE_NAME = "clientsDatabase";
@@ -144,16 +160,8 @@ function addClientRow(data) {
     tableCell.innerHTML = colData || "";
   }
 
-  const ul = document.createElement("ul");
-  if (data.products) {
-    for (const productID of data.products) {
-      const li = document.createElement("li");
-      li.innerHTML = productNames[productID];
-      ul.appendChild(li);
-    }
-  }
   const tableCell = tableRow.insertCell(-1);
-  tableCell.appendChild(ul);
+  tableCell.appendChild(productIDToList(data.products));
 
   const editButton = document.createElement("button");
   editButton.innerHTML = "Edytuj";
@@ -190,7 +198,6 @@ function addClientRow(data) {
       businessName: "Nazwa firmy",
       nip: "NIP",
       marketing: "Marketing",
-      products: "Produkty",
     };
 
     invoiceViewList.innerHTML = "";
@@ -200,6 +207,11 @@ function addClientRow(data) {
       li.innerHTML = `${labels[key]}: ${data[key]}`;
       invoiceViewList.appendChild(li);
     }
+
+    const li = document.createElement("li");
+    li.innerHTML = "Produkty";
+    li.appendChild(productIDToList(data.products));
+    invoiceViewList.appendChild(li);
 
     window.print();
   });
